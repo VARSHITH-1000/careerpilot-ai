@@ -8,9 +8,8 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
-import "./app.css";
-import {usePuterStore} from "~/lib/puter";
-import {useEffect} from "react";
+import { ThemeProvider } from "~/hooks/useTheme";
+import { AuthProvider } from "~/contexts/AuthContext";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -19,29 +18,24 @@ export const links: Route.LinksFunction = () => [
     href: "https://fonts.gstatic.com",
     crossOrigin: "anonymous",
   },
-  {
-    rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
-  },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const { init } = usePuterStore();
-
-  useEffect(() => {
-    init()
-  }, [init]);
-
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        <script
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('nextai-theme');if(t==='light'){document.documentElement.classList.remove('dark');}else{document.documentElement.classList.add('dark');}}catch(e){document.documentElement.classList.add('dark');}})();`,
+          }}
+        />
       </head>
       <body>
-        <script src="https://js.puter.com/v2/"></script>
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -51,7 +45,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <ThemeProvider>
+      <AuthProvider>
+        <Outlet />
+      </AuthProvider>
+    </ThemeProvider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
@@ -71,14 +71,16 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <main className="pt-16 p-4 container mx-auto">
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
-          <code>{stack}</code>
-        </pre>
-      )}
+    <main className="dark min-h-screen bg-slate-950 px-4 py-16 text-slate-100">
+      <div className="next-glass mx-auto max-w-2xl border border-white/10 p-8">
+        <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-white">{message}</h1>
+        <p className="mt-2 text-sm text-slate-400">{details}</p>
+        {stack && (
+          <pre className="mt-4 max-h-64 w-full overflow-x-auto rounded-xl border border-white/10 bg-black/40 p-4 text-xs text-slate-300">
+            <code>{stack}</code>
+          </pre>
+        )}
+      </div>
     </main>
   );
 }

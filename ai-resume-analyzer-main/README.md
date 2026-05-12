@@ -9,7 +9,9 @@
     <img alt="Static Badge" src="https://img.shields.io/badge/React-4c84f3?style=for-the-badge&logo=react&logoColor=white">
         <img src="https://img.shields.io/badge/-Tailwind-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" />
         <img src="https://img.shields.io/badge/-TypeScript-black?style=for-the-badge&logoColor=white&logo=typescript&color=3178C6" alt="TypeScript" />
-    <img alt="Static Badge" src="https://img.shields.io/badge/Puter.js-181758?style=for-the-badge&logoColor=white">
+    <img alt="Static Badge" src="https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=firebase&logoColor=white">
+    <img alt="Static Badge" src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white">
+    <img alt="Static Badge" src="https://img.shields.io/badge/Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white">
   </div>
 
   <h3 align="center">AI Resume Analyzer</h3>
@@ -38,7 +40,7 @@ If you prefer visual learning, this is the perfect resource for you. Follow our 
 
 ## <a name="introduction">✨ Introduction</a>
 
-Build an AI-powered Resume Analyzer with React, React Router, and Puter.js! Implement seamless auth, upload and store resumes, and match candidates to jobs using smart AI evaluations. Get custom feedback and ATS scores tailored to each listing—all wrapped in a clean, reusable UI.
+**NEXT AI — Intelligent Career Copilot** is a production-oriented resume intelligence platform: Firebase email/password auth, Supabase Postgres + private file storage, and server-side Gemini analysis—no third-party “all-in-one” browser SDKs.
 
 If you're getting started and need assistance or face any bugs, join our active Discord community with over **50k+** members. It's a place where people help each other out.
 
@@ -50,9 +52,11 @@ If you're getting started and need assistance or face any bugs, join our active 
 
 - **[React Router v7](https://reactrouter.com/)** is the go‑to routing library for React apps, offering nested routes, data loaders/actions, error boundaries, code splitting, and SSR support—all with a smooth upgrade path from v6.
 
-- **[Puter.com](https://jsm.dev/resumind-puter)** is an advanced, open-source internet operating system designed to be feature-rich, exceptionally fast, and highly extensible. Puter can be used as: A privacy-first personal cloud to keep all your files, apps, and games in one secure place, accessible from anywhere at any time.
+- **[Firebase Authentication](https://firebase.google.com/docs/auth)** for email/password sign-in and ID tokens verified on the server.
 
-- **[Puter.js](https://jsm.dev/resumind-puterjs)** is a tiny client‑side SDK that adds serverless auth, storage, database, and AI (GPT, Claude, DALL·E, OCR…) straight into your browser app—no backend needed and costs borne by users.
+- **[Supabase](https://supabase.com/)** for PostgreSQL and private object storage (resume PDF + preview image).
+
+- **[Google Gemini](https://ai.google.dev/)** for multimodal resume analysis; the API key stays on the server only.
 
 - **[Tailwind CSS](https://tailwindcss.com/)** is a utility-first CSS framework that allows developers to design custom user interfaces by applying low-level utility classes directly in HTML, streamlining the design process.
 
@@ -64,7 +68,7 @@ If you're getting started and need assistance or face any bugs, join our active 
 
 ## <a name="features">🔋 Features</a>
 
-👉 **Easy & convenient auth**: Handle authentication entirely in the browser using Puter.js—no backend or setup required.
+👉 **Secure auth**: Firebase email/password with server-verified ID tokens on API routes.
 
 👉 **Resume upload & storage**: Let users upload and store all their resumes in one place, safely and reliably.
 
@@ -82,38 +86,32 @@ And many more, including code architecture and reusability.
 
 ## <a name="quick-start">🤸 Quick Start</a>
 
-Follow these steps to set up the project locally on your machine.
+**Prerequisites:** Git, Node.js 20+, npm.
 
-**Prerequisites**
-
-Make sure you have the following installed on your machine:
-
-- [Git](https://git-scm.com/)
-- [Node.js](https://nodejs.org/en)
-- [npm](https://www.npmjs.com/) (Node Package Manager)
-
-**Cloning the Repository**
+**Install & configure**
 
 ```bash
-git clone https://github.com/adrianhajdin/ai-resume-analyzer.git
-cd ai-resume-analyzer
-```
-
-**Installation**
-
-Install the project dependencies using npm:
-
-```bash
+cd ai-resume-analyzer-main
 npm install
+cp .env.example .env
 ```
 
-**Running the Project**
+Configure Firebase, Supabase, and Gemini as described in **[docs/SETUP.md](./docs/SETUP.md)** (SQL migration, `resumes` storage bucket, environment variables).
+
+**Run**
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) in your browser to view the project.
+**Production build**
+
+```bash
+npm run build
+npm run start
+```
+
+Open the dev server URL printed in the terminal (typically [http://localhost:5173](http://localhost:5173)).
 
 ## <a name="links">🔗 Assets</a>
 

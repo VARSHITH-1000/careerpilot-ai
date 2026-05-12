@@ -1,241 +1,209 @@
-export const resumes: Resume[] = [
-    {
-        id: "1",
-        companyName: "Google",
-        jobTitle: "Frontend Developer",
-        imagePath: "/images/resume_01.png",
-        resumePath: "/resumes/resume-1.pdf",
-        feedback: {
-            overallScore: 85,
-            ATS: {
-                score: 90,
-                tips: [],
-            },
-            toneAndStyle: {
-                score: 90,
-                tips: [],
-            },
-            content: {
-                score: 90,
-                tips: [],
-            },
-            structure: {
-                score: 90,
-                tips: [],
-            },
-            skills: {
-                score: 90,
-                tips: [],
-            },
-        },
-    },
-    {
-        id: "2",
-        companyName: "Microsoft",
-        jobTitle: "Cloud Engineer",
-        imagePath: "/images/resume_02.png",
-        resumePath: "/resumes/resume-2.pdf",
-        feedback: {
-            overallScore: 55,
-            ATS: {
-                score: 90,
-                tips: [],
-            },
-            toneAndStyle: {
-                score: 90,
-                tips: [],
-            },
-            content: {
-                score: 90,
-                tips: [],
-            },
-            structure: {
-                score: 90,
-                tips: [],
-            },
-            skills: {
-                score: 90,
-                tips: [],
-            },
-        },
-    },
-    {
-        id: "3",
-        companyName: "Apple",
-        jobTitle: "iOS Developer",
-        imagePath: "/images/resume_03.png",
-        resumePath: "/resumes/resume-3.pdf",
-        feedback: {
-            overallScore: 75,
-            ATS: {
-                score: 90,
-                tips: [],
-            },
-            toneAndStyle: {
-                score: 90,
-                tips: [],
-            },
-            content: {
-                score: 90,
-                tips: [],
-            },
-            structure: {
-                score: 90,
-                tips: [],
-            },
-            skills: {
-                score: 90,
-                tips: [],
-            },
-        },
-    },
-    {
-        id: "4",
-        companyName: "Google",
-        jobTitle: "Frontend Developer",
-        imagePath: "/images/resume_01.png",
-        resumePath: "/resumes/resume-1.pdf",
-        feedback: {
-            overallScore: 85,
-            ATS: {
-                score: 90,
-                tips: [],
-            },
-            toneAndStyle: {
-                score: 90,
-                tips: [],
-            },
-            content: {
-                score: 90,
-                tips: [],
-            },
-            structure: {
-                score: 90,
-                tips: [],
-            },
-            skills: {
-                score: 90,
-                tips: [],
-            },
-        },
-    },
-    {
-        id: "5",
-        companyName: "Microsoft",
-        jobTitle: "Cloud Engineer",
-        imagePath: "/images/resume_02.png",
-        resumePath: "/resumes/resume-2.pdf",
-        feedback: {
-            overallScore: 55,
-            ATS: {
-                score: 90,
-                tips: [],
-            },
-            toneAndStyle: {
-                score: 90,
-                tips: [],
-            },
-            content: {
-                score: 90,
-                tips: [],
-            },
-            structure: {
-                score: 90,
-                tips: [],
-            },
-            skills: {
-                score: 90,
-                tips: [],
-            },
-        },
-    },
-    {
-        id: "6",
-        companyName: "Apple",
-        jobTitle: "iOS Developer",
-        imagePath: "/images/resume_03.png",
-        resumePath: "/resumes/resume-3.pdf",
-        feedback: {
-            overallScore: 75,
-            ATS: {
-                score: 90,
-                tips: [],
-            },
-            toneAndStyle: {
-                score: 90,
-                tips: [],
-            },
-            content: {
-                score: 90,
-                tips: [],
-            },
-            structure: {
-                score: 90,
-                tips: [],
-            },
-            skills: {
-                score: 90,
-                tips: [],
-            },
-        },
-    },
-];
-
 export const AIResponseFormat = `
-      interface Feedback {
-      overallScore: number; //max 100
-      ATS: {
-        score: number; //rate based on ATS suitability
-        tips: {
-          type: "good" | "improve";
-          tip: string; //give 3-4 tips
-        }[];
-      };
-      toneAndStyle: {
-        score: number; //max 100
-        tips: {
-          type: "good" | "improve";
-          tip: string; //make it a short "title" for the actual explanation
-          explanation: string; //explain in detail here
-        }[]; //give 3-4 tips
-      };
-      content: {
-        score: number; //max 100
-        tips: {
-          type: "good" | "improve";
-          tip: string; //make it a short "title" for the actual explanation
-          explanation: string; //explain in detail here
-        }[]; //give 3-4 tips
-      };
-      structure: {
-        score: number; //max 100
-        tips: {
-          type: "good" | "improve";
-          tip: string; //make it a short "title" for the actual explanation
-          explanation: string; //explain in detail here
-        }[]; //give 3-4 tips
-      };
-      skills: {
-        score: number; //max 100
-        tips: {
-          type: "good" | "improve";
-          tip: string; //make it a short "title" for the actual explanation
-          explanation: string; //explain in detail here
-        }[]; //give 3-4 tips
-      };
-    }`;
+interface ScoreCategory {
+  score: number; // 0-100
+  reasoning: string;
+  weaknesses: string[]; // minimum 2
+  missingKeywords: string[]; // include ATS and domain keywords
+  formattingIssues: string[]; // specific visual or parsing issues
+  recruiterConcerns: string[]; // what may block interview shortlisting
+  suggestions: {
+    betterBullets: string[]; // rewrite examples with stronger language
+    strongerActionVerbs: string[]; // list of verbs to improve impact
+    quantifiedImpact: string[]; // examples with metrics
+    missingTechnologies: string[]; // tools/frameworks to include
+    missingATSKeywords: string[]; // exact keywords missing
+  };
+  insights: {
+    type: "good" | "improve";
+    title: string;
+    explanation: string;
+  }[];
+}
 
-export const prepareInstructions = ({jobTitle, jobDescription}: { jobTitle: string; jobDescription: string; }) =>
-    `You are an expert in ATS (Applicant Tracking System) and resume analysis.
-      Please analyze and rate this resume and suggest how to improve it.
-      The rating can be low if the resume is bad.
-      Be thorough and detailed. Don't be afraid to point out any mistakes or areas for improvement.
-      If there is a lot to improve, don't hesitate to give low scores. This is to help the user to improve their resume.
-      If available, use the job description for the job user is applying to to give more detailed feedback.
-      If provided, take the job description into consideration.
-      The job title is: ${jobTitle}
-      The job description is: ${jobDescription}
-      Provide the feedback using the following format:
-      ${AIResponseFormat}
-      Return the analysis as an JSON object, without any other text and without the backticks.
-      Do not include any other text or comments.`;
+interface Feedback {
+  overallScore: number; // 0-100
+  targetRole: "Software Engineer" | "ML Engineer" | "Data Scientist" | "Frontend Developer" | "Backend Developer" | "Full Stack Developer";
+  scoreBreakdown: {
+    atsCompatibility: ScoreCategory;
+    technicalSkills: ScoreCategory;
+    projectQuality: ScoreCategory;
+    resumeFormatting: ScoreCategory;
+    keywordOptimization: ScoreCategory;
+    leadershipImpact: ScoreCategory;
+    experienceRelevance: ScoreCategory;
+  };
+  heatmap: {
+    strongSections: string[];
+    weakSections: string[];
+    keywordDensity: { section: string; score: number }[]; // 0-100
+  };
+  roleAnalysis: {
+    role: "Software Engineer" | "ML Engineer" | "Data Scientist" | "Frontend Developer" | "Backend Developer" | "Full Stack Developer";
+    matchScore: number; // 0-100
+    fitSummary: string;
+    gaps: string[];
+    recommendations: string[];
+  };
+  interviewReadiness: {
+    technicalReadiness: number; // 0-100
+    dsaReadiness: number; // 0-100
+    communicationReadiness: number; // 0-100
+    aiMlReadiness: number; // 0-100
+    summary: string;
+  };
+  recruiterInsights: {
+    strengths: string[];
+    hiringConcerns: string[];
+    recommendedImprovements: string[];
+    atsOptimizationInsights: string[];
+  };
+}`;
+
+export const prepareInstructions = ({
+  jobTitle,
+  jobDescription,
+  targetRole,
+}: {
+  jobTitle: string;
+  jobDescription: string;
+  targetRole: TargetRole;
+}) =>
+  `You are an expert ATS + recruiter intelligence assistant.
+Analyze this resume as a premium explainable AI career intelligence engine.
+This product blends your output with separate measurable (deterministic) parsers; your numeric scores are contextual judgments used for the LLM portion — still make them defensible and calibrated.
+Do not provide generic scoring.
+Every score must include reasoning, weaknesses, missing keywords, formatting issues, and recruiter concerns.
+Keep scoring strict and realistic.
+Use this target role heavily in your analysis: ${targetRole}
+Job title provided by user: ${jobTitle}
+Job description provided by user: ${jobDescription}
+
+Detailed requirements:
+1) Score breakdown categories:
+- ATS Compatibility
+- Technical Skills
+- Project Quality
+- Resume Formatting
+- Keyword Optimization
+- Leadership & Impact
+- Experience Relevance
+
+2) Provide explicit reasoning for each category, including:
+- weaknesses
+- missing keywords
+- formatting issues
+- recruiter concerns
+
+3) Provide actionable recommendations:
+- better bullet point recommendations
+- stronger action verbs
+- quantified impact suggestions
+- missing technologies
+- missing ATS keywords
+
+4) Provide heatmap details:
+- strong sections
+- weak sections
+- keyword density by section (0-100)
+
+5) Provide target-role analysis for the specified role:
+- role match score
+- fit summary
+- key gaps
+- recommendations
+
+6) Provide interview readiness scoring:
+- technical readiness
+- DSA readiness
+- communication readiness
+- AI/ML readiness
+- summary
+
+7) Provide recruiter style insights:
+- strengths
+- hiring concerns
+- recommended improvements
+- ATS optimization insights
+
+Return JSON only in this exact schema:
+${AIResponseFormat}
+No markdown. No markdown code fences. No backticks. No prose before or after the JSON.`;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SLIM INSIGHTS PROMPT — used by the fast hybrid pipeline.
+// Scores come from the deterministic engine; LLM only adds contextual reasoning.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** JSON schema for the slim contextual output (no numeric scoring). */
+export const InsightsResponseFormat = `{
+  "heatmap": {
+    "strongSections": string[],
+    "weakSections": string[],
+    "keywordDensity": [{ "section": string, "score": number }]
+  },
+  "roleAnalysis": {
+    "matchScore": number,
+    "fitSummary": string,
+    "gaps": string[],
+    "recommendations": string[]
+  },
+  "interviewReadiness": {
+    "technicalReadiness": number,
+    "dsaReadiness": number,
+    "communicationReadiness": number,
+    "aiMlReadiness": number,
+    "summary": string
+  },
+  "recruiterInsights": {
+    "strengths": string[],
+    "hiringConcerns": string[],
+    "recommendedImprovements": string[],
+    "atsOptimizationInsights": string[]
+  },
+  "categoryInsights": {
+    "atsCompatibility":     { "reasoning": string, "weaknesses": string[], "missingKeywords": string[], "recruiterConcerns": string[], "suggestions": { "betterBullets": string[], "strongerActionVerbs": string[], "quantifiedImpact": string[], "missingTechnologies": string[], "missingATSKeywords": string[] } },
+    "technicalSkills":      { "reasoning": string, "weaknesses": string[], "missingKeywords": string[], "recruiterConcerns": string[], "suggestions": { "betterBullets": string[], "strongerActionVerbs": string[], "quantifiedImpact": string[], "missingTechnologies": string[], "missingATSKeywords": string[] } },
+    "projectQuality":       { "reasoning": string, "weaknesses": string[], "missingKeywords": string[], "recruiterConcerns": string[], "suggestions": { "betterBullets": string[], "strongerActionVerbs": string[], "quantifiedImpact": string[], "missingTechnologies": string[], "missingATSKeywords": string[] } },
+    "resumeFormatting":     { "reasoning": string, "weaknesses": string[], "missingKeywords": string[], "recruiterConcerns": string[], "suggestions": { "betterBullets": string[], "strongerActionVerbs": string[], "quantifiedImpact": string[], "missingTechnologies": string[], "missingATSKeywords": string[] } },
+    "keywordOptimization":  { "reasoning": string, "weaknesses": string[], "missingKeywords": string[], "recruiterConcerns": string[], "suggestions": { "betterBullets": string[], "strongerActionVerbs": string[], "quantifiedImpact": string[], "missingTechnologies": string[], "missingATSKeywords": string[] } },
+    "leadershipImpact":     { "reasoning": string, "weaknesses": string[], "missingKeywords": string[], "recruiterConcerns": string[], "suggestions": { "betterBullets": string[], "strongerActionVerbs": string[], "quantifiedImpact": string[], "missingTechnologies": string[], "missingATSKeywords": string[] } },
+    "experienceRelevance":  { "reasoning": string, "weaknesses": string[], "missingKeywords": string[], "recruiterConcerns": string[], "suggestions": { "betterBullets": string[], "strongerActionVerbs": string[], "quantifiedImpact": string[], "missingTechnologies": string[], "missingATSKeywords": string[] } }
+  }
+}`;
+
+const RESUME_CHAR_LIMIT = 3000;
+const JD_CHAR_LIMIT = 800;
+
+export const prepareInsightsPrompt = ({
+  resumeText,
+  jobTitle,
+  jobDescription,
+  targetRole,
+  deterministicScores,
+}: {
+  resumeText: string;
+  jobTitle: string;
+  jobDescription: string;
+  targetRole: TargetRole;
+  deterministicScores: Record<string, number>;
+}): string => {
+  const resumeSnippet = resumeText.slice(0, RESUME_CHAR_LIMIT);
+  const jdSnippet = jobDescription.slice(0, JD_CHAR_LIMIT);
+  const scoresJson = JSON.stringify(deterministicScores);
+
+  return `You are a senior technical recruiter and ATS intelligence engine.
+The resume below has already been scored by a deterministic parser. Your job is NOT to re-score — instead, provide deep contextual reasoning, recruiter insights, and specific improvement suggestions.
+
+TARGET ROLE: ${targetRole}
+JOB TITLE: ${jobTitle}
+JOB DESCRIPTION (truncated): ${jdSnippet}
+
+DETERMINISTIC SCORES (already computed — use as calibration context):
+${scoresJson}
+
+RESUME TEXT:
+${resumeSnippet}
+
+Return ONLY valid JSON matching this schema exactly. No markdown, no prose, no code fences:
+${InsightsResponseFormat}`;
+};

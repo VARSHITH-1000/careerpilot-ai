@@ -57,7 +57,7 @@ const CategoryHeader = ({
 const CategoryContent = ({
                            tips,
                          }: {
-  tips: { type: "good" | "improve"; tip: string; explanation: string }[];
+  tips: InsightItem[];
 }) => {
   return (
       <div className="flex flex-col gap-4 items-center w-full">
@@ -71,14 +71,14 @@ const CategoryContent = ({
                     alt="score"
                     className="size-5"
                 />
-                <p className="text-xl text-gray-500 ">{tip.tip}</p>
+                  <p className="text-xl text-gray-500 ">{tip.title}</p>
               </div>
           ))}
         </div>
         <div className="flex flex-col gap-4 w-full">
           {tips.map((tip, index) => (
               <div
-                  key={index + tip.tip}
+                  key={index + tip.title}
                   className={cn(
                       "flex flex-col gap-2 rounded-2xl p-4",
                       tip.type === "good"
@@ -96,7 +96,7 @@ const CategoryContent = ({
                       alt="score"
                       className="size-5"
                   />
-                  <p className="text-xl font-semibold">{tip.tip}</p>
+                  <p className="text-xl font-semibold">{tip.title}</p>
                 </div>
                 <p>{tip.explanation}</p>
               </div>
@@ -107,51 +107,52 @@ const CategoryContent = ({
 };
 
 const Details = ({ feedback }: { feedback: Feedback }) => {
+  const breakdown = feedback.scoreBreakdown;
   return (
       <div className="flex flex-col gap-4 w-full">
         <Accordion>
-          <AccordionItem id="tone-style">
-            <AccordionHeader itemId="tone-style">
+          <AccordionItem id="ats-compatibility">
+            <AccordionHeader itemId="ats-compatibility">
               <CategoryHeader
-                  title="Tone & Style"
-                  categoryScore={feedback.toneAndStyle.score}
+                  title="ATS Compatibility"
+                  categoryScore={breakdown.atsCompatibility.score}
               />
             </AccordionHeader>
-            <AccordionContent itemId="tone-style">
-              <CategoryContent tips={feedback.toneAndStyle.tips} />
+            <AccordionContent itemId="ats-compatibility">
+              <CategoryContent tips={breakdown.atsCompatibility.insights} />
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem id="content">
-            <AccordionHeader itemId="content">
+          <AccordionItem id="technical-skills">
+            <AccordionHeader itemId="technical-skills">
               <CategoryHeader
-                  title="Content"
-                  categoryScore={feedback.content.score}
+                  title="Technical Skills"
+                  categoryScore={breakdown.technicalSkills.score}
               />
             </AccordionHeader>
-            <AccordionContent itemId="content">
-              <CategoryContent tips={feedback.content.tips} />
+            <AccordionContent itemId="technical-skills">
+              <CategoryContent tips={breakdown.technicalSkills.insights} />
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem id="structure">
-            <AccordionHeader itemId="structure">
+          <AccordionItem id="project-quality">
+            <AccordionHeader itemId="project-quality">
               <CategoryHeader
-                  title="Structure"
-                  categoryScore={feedback.structure.score}
+                  title="Project Quality"
+                  categoryScore={breakdown.projectQuality.score}
               />
             </AccordionHeader>
-            <AccordionContent itemId="structure">
-              <CategoryContent tips={feedback.structure.tips} />
+            <AccordionContent itemId="project-quality">
+              <CategoryContent tips={breakdown.projectQuality.insights} />
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem id="skills">
-            <AccordionHeader itemId="skills">
+          <AccordionItem id="experience-relevance">
+            <AccordionHeader itemId="experience-relevance">
               <CategoryHeader
-                  title="Skills"
-                  categoryScore={feedback.skills.score}
+                  title="Experience Relevance"
+                  categoryScore={breakdown.experienceRelevance.score}
               />
             </AccordionHeader>
-            <AccordionContent itemId="skills">
-              <CategoryContent tips={feedback.skills.tips} />
+            <AccordionContent itemId="experience-relevance">
+              <CategoryContent tips={breakdown.experienceRelevance.insights} />
             </AccordionContent>
           </AccordionItem>
         </Accordion>

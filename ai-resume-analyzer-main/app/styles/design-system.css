@@ -1,0 +1,124 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Syne:wght@400..800&display=swap");
+
+@variant dark (&:where(.dark, .dark *));
+
+/* NEXT AI — semantic tokens */
+:root {
+  --font-display: "Syne", system-ui, sans-serif;
+  --font-body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --surface-0: #f8fafc;
+  --surface-1: #ffffff;
+  --surface-2: #f1f5f9;
+  --border: rgba(15, 23, 42, 0.08);
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --accent: #6366f1;
+  --accent-2: #22d3ee;
+  --glow: rgba(99, 102, 241, 0.35);
+}
+
+.dark {
+  --surface-0: #030712;
+  --surface-1: rgba(15, 23, 42, 0.65);
+  --surface-2: rgba(30, 41, 59, 0.85);
+  --border: rgba(148, 163, 184, 0.12);
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --accent: #a5b4fc;
+  --accent-2: #22d3ee;
+  --glow: rgba(99, 102, 241, 0.45);
+}
+
+html {
+  font-family: var(--font-body);
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--surface-0);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.dark body {
+  background: radial-gradient(1200px 600px at 10% -10%, rgba(99, 102, 241, 0.18), transparent 55%),
+    radial-gradient(900px 500px at 90% 0%, rgba(34, 211, 238, 0.12), transparent 50%),
+    linear-gradient(180deg, #030712 0%, #0b1220 40%, #030712 100%);
+}
+
+@layer components {
+  .next-glass {
+    @apply rounded-2xl border backdrop-blur-xl;
+    background: color-mix(in srgb, var(--surface-1) 88%, transparent);
+    border-color: var(--border);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset, 0 24px 80px -32px rgba(0, 0, 0, 0.55);
+  }
+
+  .light .next-glass,
+  :root:not(.dark) .next-glass {
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6) inset, 0 18px 50px -24px rgba(15, 23, 42, 0.12);
+  }
+
+  .next-gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(120deg, #c4b5fd 0%, #818cf8 35%, #22d3ee 100%);
+  }
+
+  .next-btn-primary {
+    @apply relative inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-semibold text-white transition-all duration-300;
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 45%, #0891b2 100%);
+    box-shadow: 0 0 24px var(--glow), 0 8px 24px -8px rgba(0, 0, 0, 0.45);
+  }
+
+  .next-btn-primary:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.06);
+  }
+
+  .next-btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border px-5 py-2.5 text-sm font-medium transition-all duration-300;
+    border-color: var(--border);
+    color: var(--text);
+    background: color-mix(in srgb, var(--surface-1) 40%, transparent);
+  }
+
+  .next-btn-ghost:hover {
+    border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+    background: color-mix(in srgb, var(--surface-2) 70%, transparent);
+  }
+
+  /* Shared field styles: class + native controls (Tailwind v4 cannot @apply these from app.css). */
+  .next-input,
+  input,
+  textarea,
+  select {
+    @apply w-full rounded-xl px-4 py-3 text-sm outline-none transition ring-0;
+    background: color-mix(in srgb, var(--surface-2) 85%, transparent);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  .next-input:focus,
+  input:focus,
+  textarea:focus,
+  select:focus {
+    border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+
+  .next-label {
+    @apply text-xs font-semibold uppercase tracking-wider;
+    color: var(--text-muted);
+  }
+
+  .next-hero-grid {
+    background-image: linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 20%, transparent 75%);
+  }
+
+  .skeleton {
+    @apply animate-pulse rounded-lg bg-slate-200/90 dark:bg-slate-700/80;
+  }
+}
