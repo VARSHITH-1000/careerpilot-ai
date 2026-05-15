@@ -49,40 +49,23 @@ If you're getting started and need assistance or face any bugs, join our active 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
 
 - **[React](https://react.dev/)** is a popular open‑source JavaScript library for building user interfaces using reusable components and a virtual DOM, enabling efficient, dynamic single-page and native apps.
-
-- **[React Router v7](https://reactrouter.com/)** is the go‑to routing library for React apps, offering nested routes, data loaders/actions, error boundaries, code splitting, and SSR support—all with a smooth upgrade path from v6.
-
+- **[React Router v7](https://reactrouter.com/)** is the go‑to routing library for React apps, offering nested routes, data loaders/actions, error boundaries, code splitting, and SSR support.
 - **[Firebase Authentication](https://firebase.google.com/docs/auth)** for email/password sign-in and ID tokens verified on the server.
-
 - **[Supabase](https://supabase.com/)** for PostgreSQL and private object storage (resume PDF + preview image).
-
-- **[Google Gemini](https://ai.google.dev/)** for multimodal resume analysis; the API key stays on the server only.
-
-- **[Tailwind CSS](https://tailwindcss.com/)** is a utility-first CSS framework that allows developers to design custom user interfaces by applying low-level utility classes directly in HTML, streamlining the design process.
-
-- **[TypeScript](https://www.typescriptlang.org/)** is a superset of JavaScript that adds static typing, providing better tooling, code quality, and error detection for developers, making it ideal for building large-scale applications.
-
-- **[Vite](https://vite.dev/)** is a fast build tool and dev server using native ES modules for instant startup, hot‑module replacement, and Rollup‑powered production builds—perfect for modern web development.
-
-- **[Zustand](https://github.com/pmndrs/zustand)** is a minimal, hook-based state management library for React. It lets you manage global state with zero boilerplate, no context providers, and excellent performance through selective state subscriptions.
+- **[Groq & Llama 3.1](https://groq.com/)** as the primary high-speed, cost-efficient inference engine for advanced research gap analysis and resume matching.
+- **[Google Gemini](https://ai.google.dev/)** as the multimodal fallback model.
+- **[LangChain](https://www.langchain.com/)** powering the python-based RAG architecture for semantic search, metadata extraction, and gap analysis.
+- **[Tailwind CSS & Framer Motion](https://tailwindcss.com/)** for a modern, animated, glassmorphic UI.
+- **[TypeScript](https://www.typescriptlang.org/)** for robust end-to-end type safety.
+- **[Vite](https://vite.dev/)** as the core build tool and dev server.
 
 ## <a name="features">🔋 Features</a>
 
-👉 **Secure auth**: Firebase email/password with server-verified ID tokens on API routes.
-
-👉 **Resume upload & storage**: Let users upload and store all their resumes in one place, safely and reliably.
-
-👉 **AI resume matching**: Provide a job listing and get an ATS score with custom feedback tailored to each resume.
-
-👉 **Reusable, modern UI**: Built with clean, consistent components for a great-looking and maintainable interface.
-
-👉 **Code Reusability**: Leverage reusable components and a modular codebase for efficient development.
-
-👉 **Cross-Device Compatibility**: Fully responsive design that works seamlessly across all devices.
-
-👉 **Modern UI/UX**: Clean, responsive design built with Tailwind CSS and shadcn/ui for a sleek user experience.
-
-And many more, including code architecture and reusability.
+👉 **Advanced AI Resume Intelligence**: Detailed section-wise analysis, dynamic ATS scoring, JD match percentage, recruiter impression score, missing skills detection, and actionable formatting/grammar feedback.
+👉 **Research Gap Analysis Engine**: A dedicated python-backed RAG service that fetches live academic papers (Semantic Scholar), extracts methodologies, identifies dataset trends, maps out future scopes, and surfaces unexplored research gaps.
+👉 **Interactive Visual Analytics**: Modern Recharts and Framer Motion powered methodology heatmaps, concept clustering grids, and dynamic radar charts showcasing skill coverage.
+👉 **Secure Ecosystem**: Robust server-side verification using Firebase Admin, Supabase Postgres data syncing, and private object storage with temporary signed URLs.
+👉 **Scalable Backend Architecture**: Seamless API fallback handling between Groq (Llama-3.1) and Gemini, ensuring uptime and cost efficiency during heavy token workloads.
 
 ## <a name="quick-start">🤸 Quick Start</a>
 
