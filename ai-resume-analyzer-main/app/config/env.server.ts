@@ -5,8 +5,10 @@ const serverEnvSchema = z.object({
   FIREBASE_SERVICE_ACCOUNT_JSON: z.string().min(1, "FIREBASE_SERVICE_ACCOUNT_JSON is missing. Get the JSON object from Firebase Console -> Project Settings -> Service Accounts."),
   SUPABASE_URL: z.string().url("SUPABASE_URL must be a valid URL. Get it from Supabase Dashboard -> Project Settings -> API."),
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1, "SUPABASE_SERVICE_ROLE_KEY is missing. Get it from Supabase Dashboard -> Project Settings -> API."),
-  GEMINI_API_KEY: z.string().min(1, "GEMINI_API_KEY is missing. Get your API key from Google AI Studio."),
+GEMINI_API_KEY: z.string().min(1, "GEMINI_API_KEY is missing. Get your API key from Google AI Studio.").optional(),
   GEMINI_MODEL: z.string().default("gemini-2.0-flash"),
+  GROQ_API_KEY: z.string().optional(),
+  GROQ_MODEL: z.string().default("llama-3.1-8b-instant"),
 });
 
 type ServerEnv = z.infer<typeof serverEnvSchema>;

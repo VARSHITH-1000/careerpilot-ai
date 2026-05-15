@@ -7,9 +7,13 @@ import {
   Info
 } from "lucide-react";
 import {
-  ResponsiveContainer, XAxis, YAxis, Tooltip,
-  CartesianGrid, RadarChart, PolarGrid, PolarAngleAxis,
-  PolarRadiusAxis, Radar, LineChart, Line
+  ResponsiveContainer,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  Radar,
+  Tooltip,
 } from "recharts";
 
 const GAP_COLORS: Record<string, string> = {

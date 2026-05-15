@@ -37,11 +37,17 @@ interface Feedback {
     weakSections: string[];
     keywordDensity: { section: string; score: number }[]; // 0-100
   };
-  roleAnalysis: {
+roleAnalysis: {
     role: "Software Engineer" | "ML Engineer" | "Data Scientist" | "Frontend Developer" | "Backend Developer" | "Full Stack Developer";
     matchScore: number; // 0-100
+    jdMatchPercentage: number; // 0-100
+    recruiterImpressionScore: number; // 0-100
+    hiringReadinessScore: number; // 0-100
+    aiConfidenceScore: number; // 0-100
     fitSummary: string;
     gaps: string[];
+    missingSkills: string[];
+    missingAtsKeywords: string[];
     recommendations: string[];
   };
   interviewReadiness: {
@@ -83,20 +89,20 @@ Detailed requirements:
 - ATS Compatibility
 - Technical Skills
 - Project Quality
-- Resume Formatting
+- Resume Formatting (check grammar, style, section headers)
 - Keyword Optimization
 - Leadership & Impact
-- Experience Relevance
+- Experience Relevance (evaluate industry readiness and technical depth)
 
 2) Provide explicit reasoning for each category, including:
-- weaknesses
-- missing keywords
-- formatting issues
+- strengths and weaknesses
+- missing keywords (skills and ATS)
+- formatting and grammar issues
 - recruiter concerns
 
 3) Provide actionable recommendations:
 - better bullet point recommendations
-- stronger action verbs
+- stronger action verbs (analyze action verb usage)
 - quantified impact suggestions
 - missing technologies
 - missing ATS keywords
@@ -107,9 +113,9 @@ Detailed requirements:
 - keyword density by section (0-100)
 
 5) Provide target-role analysis for the specified role:
-- role match score
-- fit summary
-- key gaps
+- role match score, JD match percentage, recruiter impression score, hiring readiness score, AI confidence score
+- fit summary (feel like a recruiter + AI career coach analyzed it)
+- key gaps, missing skills, missing ATS keywords
 - recommendations
 
 6) Provide interview readiness scoring:
@@ -141,10 +147,16 @@ export const InsightsResponseFormat = `{
     "weakSections": string[],
     "keywordDensity": [{ "section": string, "score": number }]
   },
-  "roleAnalysis": {
+"roleAnalysis": {
     "matchScore": number,
+    "jdMatchPercentage": number,
+    "recruiterImpressionScore": number,
+    "hiringReadinessScore": number,
+    "aiConfidenceScore": number,
     "fitSummary": string,
     "gaps": string[],
+    "missingSkills": string[],
+    "missingAtsKeywords": string[],
     "recommendations": string[]
   },
   "interviewReadiness": {
@@ -192,7 +204,7 @@ export const prepareInsightsPrompt = ({
   const scoresJson = JSON.stringify(deterministicScores);
 
   return `You are a senior technical recruiter and ATS intelligence engine.
-The resume below has already been scored by a deterministic parser. Your job is NOT to re-score — instead, provide deep contextual reasoning, recruiter insights, and specific improvement suggestions.
+The resume below has already been scored by a deterministic parser. Your job is NOT to re-score — instead, provide deep contextual reasoning, recruiter insights, and specific improvement suggestions. Output should feel like a recruiter + AI career coach analyzed the resume. Analyze grammar/style, missing skills, action verbs, and technical depth. Provide recruiter impression score, hiring readiness score, JD match percentage, missing skills, and AI confidence score.
 
 TARGET ROLE: ${targetRole}
 JOB TITLE: ${jobTitle}

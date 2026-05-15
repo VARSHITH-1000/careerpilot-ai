@@ -1,9 +1,5 @@
+import { motion } from "framer-motion";
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
   Tooltip,
   Legend,
   ResponsiveContainer,
@@ -45,20 +41,29 @@ export function ResearchDashboard({ analyticsData }: DashboardProps) {
   return (
     <div className="space-y-6">
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm">
+<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm">
           <div className="flex justify-between items-start">
             <div>
               <p className="text-gray-400 text-sm">Concept Clusters</p>
               <h3 className="text-2xl font-bold text-white mt-1">{concept_clusters?.length || 0}</h3>
+
+            <div className="flex flex-wrap gap-2 mt-4">
+               {concept_clusters && concept_clusters.map((cluster: string, idx: number) => (
+                 <motion.span initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 * idx }} key={idx} className="px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-xs font-medium text-purple-300">
+                   {cluster}
+                 </motion.span>
+               ))}
+            </div>
+
             </div>
             <div className="p-2 bg-purple-500/20 rounded-lg">
               <Network className="w-5 h-5 text-purple-400" />
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm">
           <div className="flex justify-between items-start">
             <div>
               <p className="text-gray-400 text-sm">Extracted Keywords</p>
@@ -68,9 +73,9 @@ export function ResearchDashboard({ analyticsData }: DashboardProps) {
               <Zap className="w-5 h-5 text-green-400" />
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }} className="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm">
           <div className="flex justify-between items-start">
             <div>
               <p className="text-gray-400 text-sm">Methodologies</p>
@@ -80,13 +85,13 @@ export function ResearchDashboard({ analyticsData }: DashboardProps) {
               <Brain className="w-5 h-5 text-orange-400" />
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Topic Radar */}
-        <div className="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm">
+        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.4 }} className="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm">
           <h3 className="text-lg font-medium text-white mb-6">Document Keyword Density</h3>
           {topics && topics.length > 0 ? (
             <div style={{ width: '100%', height: 300 }}>
@@ -102,11 +107,11 @@ export function ResearchDashboard({ analyticsData }: DashboardProps) {
             </div>
           ) : (
             <div className="h-[300px] flex items-center justify-center text-slate-500 text-sm">Not enough data to display topic radar.</div>
-          )}
-        </div>
+)}
+        </motion.div>
 
         {/* Methodology Distribution */}
-        <div className="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm">
+        <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.5 }} className="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm">
           <h3 className="text-lg font-medium text-white mb-6">Methodology Breakdown</h3>
           {methodology_distribution && methodology_distribution.length > 0 ? (
             <div style={{ width: '100%', height: 300 }}>
@@ -137,9 +142,31 @@ export function ResearchDashboard({ analyticsData }: DashboardProps) {
             </div>
           ) : (
              <div className="h-[300px] flex items-center justify-center text-slate-500 text-sm">Not enough data to display methodology distribution.</div>
-          )}
-        </div>
+)}
+        </motion.div>
       </div>
+
+      {/* Heatmap Section */}
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.6 }} className="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm mt-6">
+        <h3 className="text-lg font-medium text-white mb-6">Methodology Heatmap</h3>
+        {methodology_distribution && methodology_distribution.length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {methodology_distribution.map((entry: any, index: number) => {
+               // Assign opacity based on percentage value (0-100)
+               const intensity = Math.min(100, Math.max(20, entry.value || 0));
+               const bgClass = `rgba(59, 130, 246, ${intensity / 100})`;
+               return (
+                 <motion.div whileHover={{ scale: 1.05 }} key={index} className="p-4 rounded-xl border border-blue-500/20 flex flex-col items-center justify-center text-center h-24" style={{ backgroundColor: bgClass }}>
+                   <span className="text-xl font-bold text-white">{entry.value}%</span>
+                   <span className="text-xs text-blue-100 mt-1">{entry.name}</span>
+                 </motion.div>
+               );
+            })}
+          </div>
+        ) : (
+          <div className="h-24 flex items-center justify-center text-slate-500 text-sm">Not enough data to display heatmap.</div>
+        )}
+      </motion.div>
     </div>
   );
 }

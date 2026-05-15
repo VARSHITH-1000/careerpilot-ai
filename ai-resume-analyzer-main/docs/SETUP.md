@@ -5,14 +5,17 @@ This app is a **React Router (SSR)** stack:
 - **Firebase Authentication** (email/password) in the browser  
 - **Firebase Admin** on the server to verify `Authorization: Bearer <ID token>`  
 - **Supabase** Postgres + **private Storage** for resume PDFs and preview images  
-- **Google Gemini** on the server for resume intelligence (API key never shipped to the client)
+- **Groq API & Llama 3.1** on the server for ultra-fast and scalable AI career/research intelligence (primary)
+- **Google Gemini** on the server for resume intelligence fallback
 
 ## 1. Prerequisites
 
-- Node.js 20+  
+- Node.js 20+
+- Python 3.10+ (for RAG Engine)
 - A [Firebase](https://console.firebase.google.com/) project with **Email/Password** sign-in enabled  
 - A [Supabase](https://supabase.com/) project  
-- A [Gemini API key](https://aistudio.google.com/app/apikey)
+- A [Groq API key](https://console.groq.com/keys) (Primary)
+- A [Gemini API key](https://aistudio.google.com/app/apikey) (Fallback)
 
 ## 2. Supabase
 

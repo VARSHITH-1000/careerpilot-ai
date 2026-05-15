@@ -2,7 +2,7 @@ import { runDeterministicEngine } from "~/engine/scoring/deterministic-engine";
 import { getCachedDeterministic, setCachedDeterministic } from "~/engine/cache/resume-cache.server";
 import { buildHybridFeedbackFromInsights } from "~/engine/services/hybrid-feedback";
 import { prepareInsightsPrompt } from "../../../constants";
-import { generateContextualInsights } from "~/modules/ai/gemini.server";
+import { generateContextualInsights } from "~/modules/ai/llm.server";
 import { getSupabaseService, RESUMES_BUCKET } from "~/modules/db/supabase.server";
 import { logger } from "~/utils/logger.server";
 
@@ -38,21 +38,35 @@ export async function runResumeAnalysisPipeline(params: {
   const pdfPath = `${base}/resume.pdf`;
   const imagePath = `${base}/preview.png`;
 
-  // Prepare buffers upfront (needed for storage upload)
-  const [pdfBuf, imgBuf] = await Promise.all([
-    params.pdf.arrayBuffer().then((b) => new Uint8Array(b)),
-    params.previewImage.arrayBuffer().then((b) => new Uint8Array(b)),
-  ]);
+let pdfBuf: Uint8Array;
+  let imgBuf: Uint8Array;
+  try {
+    const [pBuf, iBuf] = await Promise.all([
+      params.pdf.arrayBuffer().then((b) => new Uint8Array(b)),
+      params.previewImage.arrayBuffer().then((b) => new Uint8Array(b)),
+    ]);
+    pdfBuf = pBuf;
+    imgBuf = iBuf;
+  } catch (error) {
+    logger.error("Failed to read array buffers for upload", error);
+    throw new Error("Failed to read file buffers. Please ensure the files are valid.");
+  }
 
-  // ── Stage 1: Run deterministic engine (cached) ──────────────────────────────
+// ── Stage 1: Run deterministic engine (cached) ──────────────────────────────
   logger.info("Running deterministic engine (cached)");
-  let detResult = getCachedDeterministic(params.resumeText, targetRole);
-  if (!detResult) {
-    detResult = runDeterministicEngine(params.resumeText, params.jobDescription, targetRole);
-    setCachedDeterministic(params.resumeText, targetRole, detResult);
-    logger.info("Deterministic result computed and cached");
-  } else {
-    logger.info("Deterministic result served from cache");
+  let detResult;
+  try {
+    detResult = getCachedDeterministic(params.resumeText, targetRole);
+    if (!detResult) {
+      detResult = runDeterministicEngine(params.resumeText, params.jobDescription, targetRole);
+      setCachedDeterministic(params.resumeText, targetRole, detResult);
+      logger.info("Deterministic result computed and cached");
+    } else {
+      logger.info("Deterministic result served from cache");
+    }
+  } catch (error) {
+    logger.error("Deterministic engine failed", error);
+    throw new Error("Failed to process resume text deterministically. Please ensure valid text is extracted.");
   }
 
   // Build slim AI prompt using pre-computed scores
