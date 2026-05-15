@@ -3,3 +3,4 @@ rag-engine/venv/
 __pycache__/
 *.pyc
 .env
+.env
