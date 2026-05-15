@@ -25,10 +25,16 @@ export type ContextualInsights = {
     weakSections: string[];
     keywordDensity: { section: string; score: number }[];
   };
-  roleAnalysis: {
+roleAnalysis: {
     matchScore: number;
+    jdMatchPercentage?: number;
+    recruiterImpressionScore?: number;
+    hiringReadinessScore?: number;
+    aiConfidenceScore?: number;
     fitSummary: string;
     gaps: string[];
+    missingSkills?: string[];
+    missingAtsKeywords?: string[];
     recommendations: string[];
   };
   interviewReadiness: {
@@ -68,44 +74,16 @@ function withTimeout<T>(promise: Promise<T>, ms: number, label: string): Promise
   });
 }
 
-function safeParseJson(raw: string): unknown {
-  let s = raw.trim().replace(/^\uFEFF/, "");
-  // Strip markdown fences
-  const fenced = s.match(/```(?:json)?\s*([\s\S]*?)```/i);
-  if (fenced) s = fenced[1].trim();
-  else if (s.startsWith("```")) {
-    s = s.replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/, "").trim();
-  }
-  // Find first balanced JSON object
-  const start = s.indexOf("{");
-  if (start !== -1) {
-    let depth = 0;
-    let inString = false;
-    let escaped = false;
-    for (let i = start; i < s.length; i++) {
-      const ch = s[i];
-      if (inString) {
-        if (escaped) { escaped = false; continue; }
-        if (ch === "\\") { escaped = true; continue; }
-        if (ch === '"') { inString = false; continue; }
-        continue;
-      }
-      if (ch === '"') { inString = true; continue; }
-      if (ch === "{") depth++;
-      else if (ch === "}") {
-        depth--;
-        if (depth === 0) return JSON.parse(s.slice(start, i + 1));
-      }
-    }
-  }
-  return JSON.parse(s);
-}
+import { safeParseJson } from "./llm.server";
 
 /**
  * Sends a slim, compressed prompt to the AI model requesting ONLY contextual insights.
  * Numeric scoring is handled by the deterministic engine — this call is fast and focused.
  */
 export async function generateContextualInsights(prompt: string): Promise<ContextualInsights> {
+  if (!serverEnv.GEMINI_API_KEY) {
+      throw new Error("GEMINI_API_KEY is missing");
+  }
   const gen = new GoogleGenerativeAI(serverEnv.GEMINI_API_KEY);
   const model = gen.getGenerativeModel({
     model: serverEnv.GEMINI_MODEL,

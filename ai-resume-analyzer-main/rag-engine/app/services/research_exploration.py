@@ -79,7 +79,11 @@ def explore_global_topic(query: str) -> dict:
         "latest_advancements": [],
         "research_gaps": [],
         "methodology_chain": [],
-        "trend_evolution": []
+        "trend_evolution": [],
+        "dataset_comparison": [],
+        "methodology_comparison": "",
+        "similarity_scoring": [],
+        "future_scope": ""
     }
 
     # Step 2: LLM Analysis with Fallback
@@ -108,7 +112,15 @@ Generate a JSON object with EXACTLY this schema (no extra fields):
   "trend_evolution": [
     {{"period": "2018-2020", "focus": "What research focused on"}},
     {{"period": "2021-Present", "focus": "Current focus"}}
-  ]
+  ],
+  "dataset_comparison": [
+    {{"dataset_name": "Dataset used", "papers_using_it": 3, "limitations": "Size/Bias limits"}}
+  ],
+  "methodology_comparison": "Provide an intelligent observation. E.g., 'Most papers rely on CNN architectures, but Transformer-based lightweight approaches remain underexplored.'",
+  "similarity_scoring": [
+    {{"paper_1": "Title 1", "paper_2": "Title 2", "similarity_score": 90, "common_theme": "Theme"}}
+  ],
+  "future_scope": "Suggest a novel research direction based on extracted gaps and limitations."
 }}
 
 Output ONLY raw JSON. No markdown code fences.

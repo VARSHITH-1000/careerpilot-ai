@@ -21,6 +21,7 @@
     "firebase": "^12.13.0",
     "firebase-admin": "^13.9.0",
     "framer-motion": "^12.38.0",
+    "groq-sdk": "^1.2.0",
     "isbot": "^5.1.27",
     "lucide-react": "^1.14.0",
     "pdfjs-dist": "^5.3.93",

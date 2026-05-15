@@ -140,13 +140,19 @@ export const normalizeFeedback = (
             { section: "Skills", score: 80 },
           ],
     },
-    roleAnalysis: {
+roleAnalysis: {
       role: asTargetRole(raw.roleAnalysis?.role ?? raw.targetRole ?? targetRoleHint),
       matchScore: clampScore(raw.roleAnalysis?.matchScore, clampScore(raw.overallScore, 50)),
+      jdMatchPercentage: clampScore(raw.roleAnalysis?.jdMatchPercentage, clampScore(raw.overallScore, 50)),
+      recruiterImpressionScore: clampScore(raw.roleAnalysis?.recruiterImpressionScore, clampScore(raw.overallScore, 50)),
+      hiringReadinessScore: clampScore(raw.roleAnalysis?.hiringReadinessScore, clampScore(raw.overallScore, 50)),
+      aiConfidenceScore: clampScore(raw.roleAnalysis?.aiConfidenceScore, 85),
       fitSummary:
         raw.roleAnalysis?.fitSummary ??
         "Your resume demonstrates potential but needs sharper alignment with role-specific outcomes.",
       gaps: asStringArray(raw.roleAnalysis?.gaps, ["Role-specific keywords are underrepresented."]),
+      missingSkills: asStringArray(raw.roleAnalysis?.missingSkills, []),
+      missingAtsKeywords: asStringArray(raw.roleAnalysis?.missingAtsKeywords, []),
       recommendations: asStringArray(raw.roleAnalysis?.recommendations, [
         "Mirror priority responsibilities from the target job description.",
       ]),

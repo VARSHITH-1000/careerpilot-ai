@@ -1,4 +1,5 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_groq import ChatGroq
 from langchain.prompts import PromptTemplate
 from langchain.schema.runnable import RunnablePassthrough
 from langchain.schema.output_parser import StrOutputParser
@@ -10,9 +11,19 @@ from app.services.resilience import cache, retry_with_backoff, MODEL_PRIORITY
 logger = logging.getLogger(__name__)
 
 def get_llm(model_name: str = None):
+    # Check if Groq API key is present
+    if getattr(settings, 'GROQ_API_KEY', None):
+        model = getattr(settings, 'GROQ_MODEL', 'llama-3.1-8b-instant')
+        logger.info(f"Using Groq model {model}")
+        return ChatGroq(
+            model=model,
+            groq_api_key=settings.GROQ_API_KEY,
+            temperature=0.3
+        )
     if not settings.GEMINI_API_KEY:
         raise ValueError("Gemini API Key is not configured.")
     model = model_name or settings.GEMINI_MODEL
+    logger.info(f"Using Gemini model {model}")
     return ChatGoogleGenerativeAI(
         model=model,
         google_api_key=settings.GEMINI_API_KEY,

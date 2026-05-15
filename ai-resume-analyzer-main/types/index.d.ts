@@ -106,13 +106,19 @@ interface Feedback {
             score: number;
         }[];
     };
-    roleAnalysis: {
-        role: TargetRole;
-        matchScore: number;
-        fitSummary: string;
-        gaps: string[];
-        recommendations: string[];
-    };
+  roleAnalysis: {
+    role: TargetRole;
+    matchScore: number;
+    jdMatchPercentage: number;
+    recruiterImpressionScore: number;
+    hiringReadinessScore: number;
+    aiConfidenceScore: number;
+    fitSummary: string;
+    gaps: string[];
+    missingSkills: string[];
+    missingAtsKeywords: string[];
+    recommendations: string[];
+  };
     interviewReadiness: {
         technicalReadiness: number;
         dsaReadiness: number;

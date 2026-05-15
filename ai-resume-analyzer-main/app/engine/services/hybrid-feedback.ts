@@ -135,12 +135,18 @@ export function buildHybridFeedbackFromInsights(
       };
   const heatmap = mergeHeatmaps(aiHeatmap, det);
 
-  // Role analysis
+// Role analysis
   const roleAnalysis: Feedback["roleAnalysis"] = {
     role: targetRole,
     matchScore: contextual?.roleAnalysis?.matchScore ?? overallScore,
+    jdMatchPercentage: contextual?.roleAnalysis?.jdMatchPercentage ?? Math.max(0, overallScore - 15),
     fitSummary: contextual?.roleAnalysis?.fitSummary ?? "Analysis based on deterministic scoring.",
     gaps: contextual?.roleAnalysis?.gaps ?? [],
+    missingSkills: contextual?.roleAnalysis?.missingSkills ?? [],
+    missingAtsKeywords: contextual?.roleAnalysis?.missingAtsKeywords ?? [],
+    recruiterImpressionScore: contextual?.roleAnalysis?.recruiterImpressionScore ?? overallScore,
+    hiringReadinessScore: contextual?.roleAnalysis?.hiringReadinessScore ?? overallScore,
+    aiConfidenceScore: contextual?.roleAnalysis?.aiConfidenceScore ?? 85,
     recommendations: contextual?.roleAnalysis?.recommendations ?? [],
   };
 

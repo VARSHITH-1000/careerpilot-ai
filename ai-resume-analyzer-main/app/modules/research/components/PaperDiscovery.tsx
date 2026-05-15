@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { apiJson } from "~/lib/api.client";
 import { ExternalLink, Percent, Info } from "lucide-react";
@@ -62,7 +63,7 @@ export function PaperDiscovery({ docId }: { docId?: string }) {
       
       <div className="flex flex-col gap-4">
         {papers.map((paper) => (
-          <div key={paper.id} className="p-5 rounded-xl border border-indigo-500/20 bg-indigo-500/5 hover:bg-indigo-500/10 transition-colors relative overflow-hidden">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} key={paper.id} className="p-5 rounded-xl border border-indigo-500/20 bg-indigo-500/5 hover:bg-indigo-500/10 transition-colors relative overflow-hidden">
             {paper.semantic_similarity_score !== undefined && (
               <div className="absolute top-0 right-0 bg-indigo-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl flex items-center gap-1">
                 <Percent className="w-3 h-3" /> {paper.semantic_similarity_score} Match
@@ -94,7 +95,7 @@ export function PaperDiscovery({ docId }: { docId?: string }) {
             )}
             
             <p className="text-sm text-slate-300 mt-4 line-clamp-3 leading-relaxed">{paper.abstract}</p>
-          </div>
+          </motion.div>
         ))}
         {!loading && papers.length === 0 && !error && (
           <div className="text-slate-500 text-sm p-4 text-center">No related papers found for this document's context.</div>

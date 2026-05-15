@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import ForceGraph2D from "react-force-graph-2d";
 
@@ -25,7 +26,7 @@ export default function KnowledgeGraph({ data, width = 600, height = 400 }: Know
   }
 
   return (
-    <div className="rounded-xl overflow-hidden border border-white/10 bg-black/50">
+    <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }} className="rounded-xl overflow-hidden border border-white/10 bg-black/50">
       <ForceGraph2D
         ref={fgRef}
         width={width}
@@ -41,6 +42,6 @@ export default function KnowledgeGraph({ data, width = 600, height = 400 }: Know
         nodeRelSize={6}
         linkWidth={(link: any) => (link.value ? link.value * 0.5 : 1)}
       />
-    </div>
+    </motion.div>
   );
 }
